@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Redirecting</title>
+<script>
+/* dvKeep: 1 for a project site (username.github.io/repo/), 0 for a user site or custom domain */
+var dvKeep = 0;
+(function () {
+  var l = location, s = l.pathname.split('/'),
+      base = s.slice(0, 1 + dvKeep).join('/') + '/',
+      rest = s.slice(1 + dvKeep).join('/');
+  l.replace(l.origin + base + '?dvp=' + encodeURIComponent(rest + l.search) + l.hash);
+})();
+</script>
+<style>html{font-size:19px}body{margin:0;padding:1.5rem;font-family:Roboto,system-ui,Arial,sans-serif;line-height:1.6}</style>
+</head>
+<body>
+<p>Redirecting. If nothing happens, <a href="./">open the home page</a>.</p>
+</body>
+</html>
