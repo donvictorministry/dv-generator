@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- 1. PARSER CRITICAL DIRECTIVES -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+
+  <!-- 2. PRIMARY SEO METADATA -->
+  <title>DV-Generator — Mobile PNG &amp; Open Graph Asset Generator</title>
+  <meta name="title" content="DV-Generator — Mobile PNG &amp; Open Graph Asset Generator" />
+  <meta name="description" content="Generate high-resolution PNG app icons, WhatsApp OG link preview cards, and PWA assets entirely in the browser. Zero backend, 100% offline." />
+  <meta name="keywords" content="png generator, whatsapp og image, pwa icon generator, open graph creator, android asset tool, offline canvas pwa" />
+  <meta name="author" content="Rev. Chris Johnson, PhD" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <link rel="canonical" href="https://yourusername.github.io/dv-generator/" />
+
+  <!-- 3. ANDROID & BROWSER THEME DIRECTIVES -->
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8fafc" />
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#090d16" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="application-name" content="DV-Generator" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <!-- 4. APPLE MOBILE WEB TAGS -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="DV-Generator" />
+
+  <!-- 5. OPEN GRAPH (WHATSAPP, FACEBOOK, LINKEDIN) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="DV-Generator" />
+  <meta property="og:title" content="DV-Generator — Mobile PNG &amp; Open Graph Generator" />
+  <meta property="og:description" content="Generate all PNG icon sizes and WhatsApp OG link preview cards entirely on device." />
+  <meta property="og:url" content="https://yourusername.github.io/dv-generator/" />
+  <meta property="og:image" content="https://yourusername.github.io/dv-generator/og-image.png" />
+  <meta property="og:image:secure_url" content="https://yourusername.github.io/dv-generator/og-image.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="DV-Generator Official Brand Banner" />
+
+  <!-- 6. TWITTER / X CARD METADATA -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="DV-Generator — Mobile Asset Generator" />
+  <meta name="twitter:description" content="Client-side PNG and WhatsApp Open Graph generator for mobile developers." />
+
+  <!-- 7. PWA MANIFEST -->
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-theme="light">
+  <!-- Toast Notification System (Zero Browser alert()) -->
+  <aside id="toastContainer" class="toast-container" aria-live="polite"></aside>
+
+  <!-- Pinned Top App Bar -->
+  <header class="app-header">
+    <button id="leftMenuBtn" class="header-btn" aria-label="Open Informational Menu">
+      <svg class="ui-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </button>
+
+    <div class="brand">
+      <svg class="ui-icon brand-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16H5V5h14v14m-5.04-6.71l-2.75 3.54-1.96-2.36L6.5 17h11l-3.54-4.71Z"/></svg>
+      <span class="brand-title">DV-Generator</span>
+    </div>
+
+    <button id="rightMenuBtn" class="header-btn" aria-label="Open Settings and Utilities">
+      <svg class="ui-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2Z"/></svg>
+    </button>
+  </header>
+
+  <!-- Android Edge-to-Edge Scroll Surface -->
+  <main class="android-viewport">
+    
+    <!-- Real-Time Asset Canvas Preview Card -->
+    <section class="mobile-card preview-card">
+      <div class="preview-header">
+        <span class="card-caption">Live Render Preview</span>
+        <span id="dimensionBadge" class="dimension-badge">1200 × 630 px</span>
+      </div>
+      <div class="canvas-stage">
+        <canvas id="forgeCanvas" width="1200" height="630"></canvas>
+      </div>
+      <div class="render-actions">
+        <button id="downloadCurrentBtn" class="primary-btn">
+          <svg class="ui-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M5 20h14v-2H5v2m7-18L5.33 9h4.67v6h4V9h4.67L12 2Z"/></svg>
+          <span id="downloadBtnText">Download WhatsApp OG (PNG)</span>
+        </button>
+        <button id="batchDownloadBtn" class="secondary-btn">
+          <svg class="ui-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2Z"/></svg>
+          <span>Batch Download All Sizes</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Configuration Card -->
+    <section class="mobile-card">
+      <span class="card-caption">Asset Specifications</span>
+
+      <!-- Preset Selector -->
+      <label for="presetSelect" class="form-label">Target Format:</label>
+      <select id="presetSelect" class="std-select">
+        <option value="og_whatsapp">WhatsApp &amp; Facebook OG (1200 × 630)</option>
+        <option value="twitter_card">Twitter / X Card (1200 × 600)</option>
+        <option value="pwa_512">PWA Master &amp; Play Store (512 × 512)</option>
+        <option value="pwa_192">Android PWA Home Icon (192 × 192)</option>
+        <option value="apple_touch">Apple Touch Icon (180 × 180)</option>
+        <option value="chrome_128">Chrome Web Store (128 × 128)</option>
+        <option value="toolbar_48">Chrome Toolbar Icon (48 × 48)</option>
+        <option value="favicon_32">Browser Favicon (32 × 32)</option>
+        <option value="favicon_16">Micro Favicon (16 × 16)</option>
+      </select>
+
+      <!-- App Branding Inputs -->
+      <label for="appNameInput" class="form-label">Project / App Title:</label>
+      <input type="text" id="appNameInput" class="std-input" value="Quick-Snippets" maxlength="28" />
+
+      <label for="appSubtitleInput" class="form-label">Subtitle / Tagline:</label>
+      <input type="text" id="appSubtitleInput" class="std-input" value="Mobile Knowledge &amp; Clipboard" maxlength="42" />
+
+      <!-- Vector Emblem Motif -->
+      <label for="emblemSelect" class="form-label">Center Emblem Motif:</label>
+      <select id="emblemSelect" class="std-select">
+        <option value="cross">Holy Cross (Faith &amp; Theology)</option>
+        <option value="snippet">Snippet Clipboard (Documents)</option>
+        <option value="focus">Target Ring (Focus &amp; Timer)</option>
+        <option value="shield">Security Shield (Privacy)</option>
+        <option value="lightning">Lightning Bolt (Speed)</option>
+      </select>
+
+      <!-- Palette Controls (Color Picker + Hex Color Code) -->
+      <div class="color-control-grid">
+        <div class="color-box">
+          <label for="primaryColor">Primary Tint:</label>
+          <input type="color" id="primaryColor" value="#0284c7" />
+          <input type="text" id="primaryHex" class="std-input hex-input" value="#0284C7" maxlength="7" autocapitalize="characters" autocomplete="off" spellcheck="false" aria-label="Primary Tint Hex Color Code" />
+        </div>
+        <div class="color-box">
+          <label for="secondaryColor">Deep Tint:</label>
+          <input type="color" id="secondaryColor" value="#0369a1" />
+          <input type="text" id="secondaryHex" class="std-input hex-input" value="#0369A1" maxlength="7" autocapitalize="characters" autocomplete="off" spellcheck="false" aria-label="Deep Tint Hex Color Code" />
+        </div>
+      </div>
+    </section>
+
+    <footer class="mobile-footer">
+      <p>DV-Generator • Zero Tracking • 100% Client-Side Canvas</p>
+    </footer>
+  </main>
+
+  <!-- ============================================================== -->
+  <!-- LEFT SIDEBAR: PUBLIC INFORMATIONAL (7 MODALS)                  -->
+  <!-- ============================================================== -->
+  <aside id="leftSidebar" class="sidebar drawer-left" aria-hidden="true">
+    <div class="drawer-header">
+      <h2>Information Hub</h2>
+      <button class="close-btn" data-close="leftSidebar" aria-label="Close Left Sidebar">
+        <svg class="ui-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+      </button>
+    </div>
+    <nav class="drawer-nav">
+      <button class="nav-link-btn" data-modal="modalAboutApp">About the App</button>
+      <button class="nav-link-btn" data-modal="modalAboutDev">About Developer</button>
+      <button class="nav-link-btn" data-modal="modalAboutTeam">About Team</button>
+      <button class="nav-link-btn" data-modal="modalProprietary">Proprietary Software Warning</button>
+      <button class="nav-link-btn" data-modal="modalHowToUse">How to Use</button>
+      <button class="nav-link-btn" data-modal="modalPartner">Partner With Us</button>
+      <button class="nav-link-btn" data-modal="modalContact">Contact Us</button>
+    </nav>
+  </aside>
+
+  <!-- ============================================================== -->
+  <!-- RIGHT SIDEBAR: SETTINGS & UTILITIES                            -->
+  <!-- ============================================================== -->
+  <aside id="rightSidebar" class="sidebar drawer-right" aria-hidden="true">
+    <div class="drawer-header">
+      <h2>Settings &amp; Utilities</h2>
+      <button class="close-btn" data-close="rightSidebar" aria-label="Close Right Sidebar">
+        <svg class="ui-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+      </button>
+    </div>
+    <div class="drawer-content">
+      <!-- Dark Theme Switch -->
+      <div class="utility-row">
+        <span>Dark Theme</span>
+        <label class="switch">
+          <input type="checkbox" id="darkModeCheckbox">
+          <span class="slider round"></span>
+        </label>
+      </div>
+
+      <!-- Typography Scale Slider (Strictly 19px to 23px) -->
+      <div class="utility-row font-control">
+        <label for="fontSlider">Typographical Floor: <strong id="fontSizeIndicator">19px</strong></label>
+        <input type="range" id="fontSlider" min="19" max="23" value="19" step="1">
+      </div>
+
+      <!-- Quick Actions Stack -->
+      <div class="actions-stack">
+        <button id="installAppBtn" class="utility-btn">
+          <svg class="ui-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M5 20h14v-2H5v2m7-18L5.33 9h4.67v6h4V9h4.67L12 2Z"/></svg>
+          Install on Android
+        </button>
+        <button id="shareAppBtn" class="utility-btn">
+          <svg class="ui-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92Z"/></svg>
+          Share Direct URL
+        </button>
+        <button id="bluetoothShareBtn" class="utility-btn bluetooth">
+          <svg class="ui-icon" viewBox="0 0 24 24"><path fill="currentColor" d="m14.88 16.29 2.83-2.83-4.24-4.24V2h-1v7.59L8.71 5.83l-.71.71L12.41 11l-4.41 4.46.71.71 3.76-3.76V20h1v-7.59l3.53 3.53.88-.35M13.41 4.41l2.12 2.12-2.12 2.12V4.41m0 13.18v-4.24l2.12 2.12-2.12 2.12Z"/></svg>
+          Transmit via Bluetooth
+        </button>
+        <button id="bluetoothPngBtn" class="utility-btn bluetooth">
+          <svg class="ui-icon" viewBox="0 0 24 24"><path fill="currentColor" d="m14.88 16.29 2.83-2.83-4.24-4.24V2h-1v7.59L8.71 5.83l-.71.71L12.41 11l-4.41 4.46.71.71 3.76-3.76V20h1v-7.59l3.53 3.53.88-.35M13.41 4.41l2.12 2.12-2.12 2.12V4.41m0 13.18v-4.24l2.12 2.12-2.12 2.12Z"/></svg>
+          Send Current PNG via Bluetooth
+        </button>
+        <button id="whatsappShareBtn" class="utility-btn whatsapp">
+          <svg class="ui-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c4.54 0 8.24 3.7 8.24 8.24 0 2.2-.86 4.28-2.42 5.84-1.56 1.56-3.64 2.4-5.83 2.4-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24"/></svg>
+          Share App via WhatsApp
+        </button>
+        <button id="whatsappPngBtn" class="utility-btn whatsapp">
+          <svg class="ui-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c4.54 0 8.24 3.7 8.24 8.24 0 2.2-.86 4.28-2.42 5.84-1.56 1.56-3.64 2.4-5.83 2.4-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24"/></svg>
+          Send Current PNG via WhatsApp
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <div id="drawerOverlay" class="drawer-overlay"></div>
+
+  <!-- ============================================================== -->
+  <!-- 7 FULLSCREEN MODALS (100% dvh x 100% dvw Edge-To-Edge)         -->
+  <!-- ============================================================== -->
+
+  <!-- 1. Modal: About App -->
+  <div id="modalAboutApp" class="fullscreen-modal" role="dialog" aria-modal="true">
+    <header class="modal-header">
+      <h2>About DV-Generator</h2>
+      <button class="close-modal-btn">Close</button>
+    </header>
+    <div class="modal-body">
+      <p>DV-Generator is an Android-exclusive, edge-to-edge digital asset foundry built to produce verified, high-resolution PNG icons and WhatsApp Open Graph banners entirely in the browser.</p>
+      <p>Operates with 100% data sovereignty. There are zero backends, zero external rendering APIs, and no telemetry. All graphic synthesis executes in hardware memory via the HTML5 Canvas API.</p>
+    </div>
+  </div>
+
+  <!-- 2. Modal: About Developer -->
+  <div id="modalAboutDev" class="fullscreen-modal" role="dialog" aria-modal="true">
+    <header class="modal-header">
+      <h2>About Developer</h2>
+      <button class="close-modal-btn">Close</button>
+    </header>
+    <div class="modal-body dev-profile">
+      <!-- Circular Photo Placeholder -->
+      <img 
+        src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80" 
+        alt="Developer Photo" 
+        id="devPhotoPlaceholder" 
+        class="circle-dev-img" 
+      />
+      <h3 class="dev-name">Rev. Chris Johnson, PhD</h3>
+      <h4 class="dev-role">Principal Systems Architect &amp; Academic Dean</h4>
+
+      <div id="devBioText" class="clamped-bio">
+        Rev. Chris Johnson, PhD, is a distinguished academic researcher, theological educator, and software architect dedicated to developing accessible, dignified, and client-sovereign digital systems. With decades of executive leadership in education and technological design, Dr. Johnson establishes uncompromising standards for user interface ergonomics, typography legibility, and offline privacy. This software reflects strict build standards, ensuring readable typography, edge-to-edge responsiveness, zero unnecessary tracking, and uncompromising runtime stability. Every component was handcrafted to balance technical minimalism with rich sensory design.
+      </div>
+      <button id="toggleBioBtn" class="text-expand-btn">Show More</button>
+    </div>
+  </div>
+
+  <!-- 3. Modal: About Team -->
+  <div id="modalAboutTeam" class="fullscreen-modal" role="dialog" aria-modal="true">
+    <header class="modal-header">
+      <h2>About Our Team</h2>
+      <button class="close-modal-btn">Close</button>
+    </header>
+    <div class="modal-body team-stack">
+      <div class="team-card">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80" alt="Sarah Chen" class="team-photo" />
+        <h3 class="team-name">Sarah Chen</h3>
+        <p class="team-role">Head of Accessibility</p>
+        <p class="team-bio">Focusing on high-accessibility interfaces, tactile typography, and mindful visual ergonomics.</p>
+      </div>
+      <div class="team-card">
+        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80" alt="Marcus Gray" class="team-photo" />
+        <h3 class="team-name">Marcus Gray</h3>
+        <p class="team-role">Graphic Engine Lead</p>
+        <p class="team-bio">Pioneer in client-side canvas rasterization, color space management, and binary PNG serialization.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Modal: Proprietary Notice -->
+  <div id="modalProprietary" class="fullscreen-modal" role="dialog" aria-modal="true">
+    <header class="modal-header">
+      <h2>Proprietary Notice</h2>
+      <button class="close-modal-btn">Close</button>
+    </header>
+    <div class="modal-body legal-text">
+      <div class="warning-banner">
+        <svg class="ui-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4m-1 6h2v6h-2V7m0 8h2v2h-2v-2Z"/></svg>
+        <span>STRICT PROPRIETARY NOTICE</span>
+      </div>
+      <p>All source code, asset formulations, canvas rendering procedures, UI layouts, and associated algorithms are strictly proprietary property.</p>
+      <p>Unauthorized copying, decompilation, redistribution, commercial reselling, or reverse engineering of this software in whole or in part without prior explicit written authorization is unlawful and strictly prohibited.</p>
+      <p>© DV-Generator. All rights reserved.</p>
+    </div>
+  </div>
+
+  <!-- 5. Modal: How to Use -->
+  <div id="modalHowToUse" class="fullscreen-modal" role="dialog" aria-modal="true">
+    <header class="modal-header">
+      <h2>How to Use</h2>
+      <button class="close-modal-btn">Close</button>
+    </header>
+    <div class="modal-body">
+      <ol class="instructions-list">
+        <li><strong>Choose Your Format:</strong> Select the target asset preset (such as WhatsApp OG 1200×630, PWA 512×512, or Favicon 32×32).</li>
+        <li><strong>Customize Brand Identity:</strong> Type your Project Name, Tagline, Primary Color, and Center Motif. The live canvas updates instantly.</li>
+        <li><strong>Download Instantly:</strong> Tap "Download" to generate the single PNG file directly onto your phone.</li>
+        <li><strong>Batch Generation:</strong> Tap "Batch Download All Sizes" to automatically generate and download all 9 standard web and mobile icon formats with one click.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- 6. Modal: Partner With Us (Gmail-Style Contact Form -> Opens Gmail App) -->
+  <div id="modalPartner" class="fullscreen-modal" role="dialog" aria-modal="true">
+    <header class="modal-header">
+      <h2>Partner With Us</h2>
+      <button class="close-modal-btn">Close</button>
+    </header>
+    <div class="modal-body">
+      <p>We actively collaborate with educational institutions, digital ministries, and independent software creators.</p>
+      <form id="partnerForm" class="form-container gmail-form">
+        <div class="gmail-bar">
+          <svg class="ui-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          <span>New Message</span>
+        </div>
+        <div class="gmail-row"><span class="gmail-key">To</span><span class="gmail-val">contact@iconforgepro.app</span></div>
+        <input type="text" id="partnerOrg" placeholder="Organization / Institution Name" class="std-input gmail-field" required>
+        <input type="email" id="partnerEmail" placeholder="Official Email Address" class="std-input gmail-field" required>
+        <textarea id="partnerMessage" placeholder="Compose your proposal" class="std-input gmail-field gmail-message" rows="5"></textarea>
+        <button type="submit" class="gmail-send-btn">
+          <svg class="ui-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M2.01 21 23 12 2.01 3 2 10l15 2-15 2 .01 7Z"/></svg>
+          Send via Gmail
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 7. Modal: Contact Us (4 Brand Buttons) -->
+  <div id="modalContact" class="fullscreen-modal" role="dialog" aria-modal="true">
+    <header class="modal-header">
+      <h2>Contact Us</h2>
+      <button class="close-modal-btn">Close</button>
+    </header>
+    <div class="modal-body">
+      <p>Direct communication channels for administrative and technical inquiries:</p>
+      
+      <div class="brand-buttons-stack">
+        <a href="mailto:contact@iconforgepro.app" class="brand-btn gmail" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" class="btn-icon"><path fill="currentColor" d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          Gmail Official
+        </a>
+        <a href="tel:+18005550199" class="brand-btn phone">
+          <svg viewBox="0 0 24 24" class="btn-icon"><path fill="currentColor" d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+          Direct Line Phone
+        </a>
+        <a href="https://wa.me/18005550199" class="brand-btn whatsapp" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" class="btn-icon"><path fill="currentColor" d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c4.54 0 8.24 3.7 8.24 8.24 0 2.2-.86 4.28-2.42 5.84-1.56 1.56-3.64 2.4-5.83 2.4-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24"/></svg>
+          WhatsApp Business
+        </a>
+        <a href="https://facebook.com" class="brand-btn facebook" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" class="btn-icon"><path fill="currentColor" d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
+          Facebook Corporate
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <!-- Feature modules: delete a line (and its file) to remove that feature -->
+  <script src="verse-paste.js"></script>
+  <script src="file-manager.js"></script>
+  <script src="share-hub.js"></script>
+</body>
+</html>
